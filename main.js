@@ -40,10 +40,7 @@ function Book(title, author, pages, isRead = false) {
 
 function addBookToLibrary() {
   console.log("Adding book to library...");
-  //form
-  //mentions display function
 
-  let form = document.getElementById("form");
   let modal = document.getElementById("myModal");
 
   let btn = document.getElementById("add");
@@ -79,7 +76,7 @@ function addBookToLibrary() {
   let bookPages = document.getElementById("inputPages");
   let addButton = document.getElementById("btn");
 
-  addButton.addEventListener("click", function () {
+  addButton.addEventListener("click", function (event) {
     event.preventDefault();
     const title = bookTitle.value;
     const author = bookAuthor.value;
@@ -94,6 +91,9 @@ function addBookToLibrary() {
     myLibrary.push(book);
 
     displayBook();
+    modal.style.display = "none";
+    document.getElementById("form").reset();
+    check.textContent = "Not Read";
   });
 }
 
@@ -142,7 +142,11 @@ function display(book) {
   card.style.gap = "12px";
 
   remove.addEventListener("click", function () {
-    card.remove();
+    let index = myLibrary.indexOf(book);
+    if (index > -1) {
+      myLibrary.splice(index, 1);
+    }
+    displayBook();
   });
 
   card.style.backgroundColor = "#adaea1";
@@ -151,3 +155,7 @@ function display(book) {
 
   gridContainer.appendChild(card);
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  addBookToLibrary();
+});
